@@ -1,2 +1,2 @@
 [dev]
-172.20.20.116 anisble_user=ec2-user ansible_connection=ssh
+172.20.20.116 anisble_user=ec2-user
