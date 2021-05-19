@@ -5,4 +5,4 @@
     - name: copy jar file to tomcat
       copy:
         src: /var/lib/jenkins/workspace/test/target/spring-petclinic-2.4.5.jar
-        dest: /opt/apache-tomcat-9.0.46/webapps
+        dest: /opt/docker
