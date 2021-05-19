@@ -1,0 +1,33 @@
+pipeline{
+    agent any
+    tools{
+        maven 'maven_local'
+    }
+    stages{
+        stage('Checkout'){
+            steps{
+                git branch: 'main', url: 'https://github.com/sanket-aws/spring-petclinic.git'
+            }
+        }
+        stage('Build'){
+            steps{
+                sh 'mvn clean install'
+            }
+        }
+        stage('Copy Jar file to docker'){
+            steps{
+               ansiblePlaybook credentialsId: 'ansible-private', disableHostKeyChecking: true, installation: 'ansible 2.9.18', inventory: 'dev.inv', playbook: 'copy.yml' 
+            }
+        }
+        stage('Build and Push Image'){
+            steps{
+                ansiblePlaybook credentialsId: 'ansible-private', disableHostKeyChecking: true, installation: 'ansible 2.9.18', inventory: 'dev.inv', playbook: 'docker.yml'
+            }
+        }
+        stage('Pull Image and Create container'){
+            steps{
+                ansiblePlaybook credentialsId: 'ansible-private', disableHostKeyChecking: true, installation: 'ansible 2.9.18', inventory: 'dev.inv', playbook: 'docker1.yml'
+            }
+        }
+    }
+}
