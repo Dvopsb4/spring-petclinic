@@ -19,5 +19,5 @@
         state: started
         #recreate: yes
         detach: true
-        ports:
-          - "80:80"
+        published_ports:
+          - 0.0.0.0:8080:8080
